@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Telephone Number Validator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #user-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            flex: 1;
+        }
+        #check-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #check-btn:hover {
+            background-color: #45a049;
+        }
+        #clear-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        #clear-btn:hover {
+            background-color: #d32f2f;
+        }
+        #results-div {
+            padding: 15px;
+            border-radius: 4px;
+            min-height: 20px;
+        }
+        .valid {
+            color: #4CAF50;
+            background-color: #e8f5e9;
+        }
+        .invalid {
+            color: #f44336;
+            background-color: #ffebee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>US Telephone Number Validator</h1>
+        <input id="user-input" type="text" placeholder="Enter phone number">
+        <div class="buttons">
+            <button id="check-btn">Check</button>
+            <button id="clear-btn">Clear</button>
+        </div>
+        <div id="results-div"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInput = document.getElementById('user-input');
+            const checkBtn = document.getElementById('check-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const resultsDiv = document.getElementById('results-div');
+
+            checkBtn.addEventListener('click', function() {
+                const phoneNumber = userInput.value.trim();
+                
+                if (!phoneNumber) {
+                    alert('Please provide a phone number');
+                    return;
+                }
+                
+                const isValid = telephoneCheck(phoneNumber);
+                displayResult(phoneNumber, isValid);
+            });
+
+            clearBtn.addEventListener('click', function() {
+                resultsDiv.innerHTML = '';
+                resultsDiv.className = '';
+            });
+
+            function displayResult(phoneNumber, isValid) {
+                resultsDiv.textContent = `${isValid ? 'Valid' : 'Invalid'} US number: ${phoneNumber}`;
+                resultsDiv.className = isValid ? 'valid' : 'invalid';
+            }
+
+            function telephoneCheck(str) {
+                // Regular expression to match valid US phone number formats
+                const regex = /^(1\s?)?(\(\d{3}\)|\d{3})([\s\-]?)\d{3}([\s\-]?)\d{4}$/;
+                
+                // Additional checks for parentheses
+                const hasParentheses = /\(|\)/.test(str);
+                if (hasParentheses) {
+                    const balancedParentheses = /^1?\s?\(\d{3}\)(\s|-)?\d{3}(-|\s)?\d{4}$/.test(str);
+                    if (!balancedParentheses) return false;
+                }
+                
+                // Check if the number starts with 1 (country code) when it's provided
+                if (/^1/.test(str) && !/^1\s?/.test(str)) return false;
+                
+                // Check for invalid characters
+                if (/[^0-9\s\-()]/.test(str)) return false;
+                
+                // Check the total number of digits (10 or 11 if country code is included)
+                const digitsOnly = str.replace(/\D/g, '');
+                if (digitsOnly.length === 11 && digitsOnly[0] !== '1') return false;
+                if (digitsOnly.length < 10 || digitsOnly.length > 11) return false;
+                
+                return regex.test(str);
+            }
+        });
+    </script>
+</body>
+</html>

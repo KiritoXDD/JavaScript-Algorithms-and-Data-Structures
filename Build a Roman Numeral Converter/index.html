@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roman Numeral Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #converter-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    input, button {
+      padding: 0.6rem;
+      font-size: 1rem;
+      margin: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #output {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="converter-container">
+    <h1>Roman Numeral Converter</h1>
+    <input type="number" id="number" placeholder="Enter number" />
+    <button id="convert-btn">Convert</button>
+    <p id="output"></p>
+  </div>
+
+  <script>
+    const input = document.getElementById("number");
+    const convertBtn = document.getElementById("convert-btn");
+    const output = document.getElementById("output");
+
+    const romanNumerals = [
+      { value: 1000, symbol: "M" },
+      { value: 900, symbol: "CM" },
+      { value: 500, symbol: "D" },
+      { value: 400, symbol: "CD" },
+      { value: 100, symbol: "C" },
+      { value: 90, symbol: "XC" },
+      { value: 50, symbol: "L" },
+      { value: 40, symbol: "XL" },
+      { value: 10, symbol: "X" },
+      { value: 9, symbol: "IX" },
+      { value: 5, symbol: "V" },
+      { value: 4, symbol: "IV" },
+      { value: 1, symbol: "I" }
+    ];
+
+    function convertToRoman(num) {
+      let result = "";
+      for (const { value, symbol } of romanNumerals) {
+        while (num >= value) {
+          result += symbol;
+          num -= value;
+        }
+      }
+      return result;
+    }
+
+    convertBtn.addEventListener("click", () => {
+      const num = Number(input.value);
+
+      if (input.value === "" || isNaN(num)) {
+        output.textContent = "Please enter a valid number";
+        return;
+      }
+
+      if (num < 1) {
+        output.textContent = "Please enter a number greater than or equal to 1";
+        return;
+      }
+
+      if (num >= 4000) {
+        output.textContent = "Please enter a number less than or equal to 3999";
+        return;
+      }
+
+      output.textContent = convertToRoman(num);
+    });
+  </script>
+</body>
+</html>

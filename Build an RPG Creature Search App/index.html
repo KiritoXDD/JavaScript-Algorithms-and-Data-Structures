@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Creature Search App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RPG Creature Search App</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" required placeholder="Enter creature name or ID">
+            <button type="submit" id="search-button">Search</button>
+        </form>
+        <div id="creature-info">
+            <h2 id="creature-name"></h2>
+            <p id="creature-id"></p>
+            <p id="weight"></p>
+            <p id="height"></p>
+            <div id="types"></div>
+            <p>HP: <span id="hp"></span></p>
+            <p>Attack: <span id="attack"></span></p>
+            <p>Defense: <span id="defense"></span></p>
+            <p>Special Attack: <span id="special-attack"></span></p>
+            <p>Special Defense: <span id="special-defense"></span></p>
+            <p>Speed: <span id="speed"></span></p>
+            <p id="special-name"></p>
+            <p id="special-description"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
